@@ -5,114 +5,85 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import Footer from './components/Footer';
+import Home from './components/Home';
+import Search from './components/Search';
+import Maps from './components/Maps';
+import Profil from './components/Profil';
+import Auth from './components/auth/Auth';
+import Register from './components/auth/Register';
+import Config from './components/config/Config';
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxHeight: '100%',
+    maxWidth: '100%',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  
 });
+
+
+
+const App = () => {
+  console.log("commence");
+  
+  const [page, setPage] = useState(1);
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState<firebase.User | null>(null);
+
+  const handleSetPage = (param: number) => {
+    setPage(param);
+  };
+
+  const onAuthStateChanged = (user: firebase.User | null) => {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  };
+
+  useEffect(() => {
+    const auth = firebase.auth();
+    const susbscriber = auth.onAuthStateChanged(onAuthStateChanged);
+    return susbscriber; 
+  }, []);
+
+
+  if (initializing) {
+    console.log('aled');
+    return null;
+  }
+
+  if (!user) {
+    console.log("la page :", page); 
+    if (page === 5 || page === 6) {
+      return (
+        <View>
+          {page === 5 && <Auth handleSetPage={handleSetPage} />}
+          {page === 6 && <Register handleSetPage={handleSetPage} />}
+          
+        </View>
+      )
+    }
+  } 
+
+  return (
+    <View style={styles.container}>
+      {page === 1 && <Home />}
+      {page === 2 && <Search />}
+      {page === 3 && <Maps />}
+      {page === 4 && <Profil />}
+      <Footer handleSetPage={handleSetPage} />
+    </View>
+  );
+};
 
 export default App;
