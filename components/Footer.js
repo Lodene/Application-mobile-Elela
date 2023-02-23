@@ -50,12 +50,12 @@ const Footer = ({handleSetPage}) => {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.element} onPress={()=>handleSetPage(3)}>
+        {/* <TouchableOpacity style={styles.element} onPress={()=>handleSetPage(3)}>
           <Image
             style={styles.image}
             source={require('./localisationWhite.png')}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */} 
         
         <TouchableOpacity style={styles.element} onPress={()=>handleSetPage(4)}>
           <Image

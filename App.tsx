@@ -54,24 +54,24 @@ const App = () => {
     return null;
   }
 
+  console.log(user);
+  
   if (!user) {
-    if (page === 5 || page === 6) {
-      console.log("la page :", page); 
-      return (
-        <View>
-          {page === 5 && <Auth handleSetPage={handleSetPage} />}
-          {page === 6 && <Register handleSetPage={handleSetPage} />}
-        </View>
-      )
-    }
+    console.log("la page :", page); 
+    return (
+      <View>
+        {page === 5 && <Auth handleSetPage={handleSetPage} />}
+        {page === 6 && <Register handleSetPage={handleSetPage} />}
+      </View>
+    )
   } 
   
   return (
     <View style={styles.container}>
       {page === 1 && <Home />}
       {page === 2 && <Search />}
-      {page === 3 && <Maps />}
-      {page === 4 && <Profil user={user}/>}
+      {/* {page === 3 && <Maps />} */}
+      {page === 4 && <Profil user={user} handleSetPage={handleSetPage}/>}
       <Footer handleSetPage={handleSetPage} />
     </View>
   );

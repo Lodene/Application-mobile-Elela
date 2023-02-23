@@ -18,7 +18,7 @@ const Login = (handleSetPage) => {
             console.log("on termine le try");
         } catch(error) {
             console.log(error.message);
-        }
+        } 
     }
 
   return (
