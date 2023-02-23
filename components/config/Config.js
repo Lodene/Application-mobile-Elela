@@ -1,6 +1,6 @@
-import { initializeApp, getApps } from "firebase/app";
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-import { getAuth } from "firebase/auth";
+import firebase from "firebase/compat/app";
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 
 const firebaseConfig = {
@@ -14,18 +14,8 @@ const firebaseConfig = {
     measurementId: "G-F39C042V00"
 };
 
-// if (!getApps.length) {
-//   firebase.initializeApp(firebaseConfig);
-// }
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
-// const firebase = initializeApp(firebaseConfig);
-// const db = getFirestore(firebase);
-// const auth = getAuth(firebase);
-
-
-const app = firebase.initializeApp(firebaseConfig);
-
-export const auth = app.auth();
-export const firestore = app.firestore();
-
-export default firebase;
+export { firebase };

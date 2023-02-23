@@ -1,14 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-import firebase from 'firebase/compat/app';
+// import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
@@ -19,7 +12,7 @@ import Maps from './components/Maps';
 import Profil from './components/Profil';
 import Auth from './components/auth/Auth';
 import Register from './components/auth/Register';
-import Config from './components/config/Config';
+import { firebase } from './components/config/Config';
 
 
 const styles = StyleSheet.create({
@@ -30,14 +23,19 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   
-});
+}); 
 
 
 
 const App = () => {
   console.log("commence");
+  useEffect(() => {
+    const auth = firebase.auth();
+    const susbscriber = auth.onAuthStateChanged(onAuthStateChanged);
+    return susbscriber; 
+  }, []);
   
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(5);
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<firebase.User | null>(null);
 
@@ -50,37 +48,30 @@ const App = () => {
     if (initializing) setInitializing(false);
   };
 
-  useEffect(() => {
-    const auth = firebase.auth();
-    const susbscriber = auth.onAuthStateChanged(onAuthStateChanged);
-    return susbscriber; 
-  }, []);
-
 
   if (initializing) {
-    console.log('aled');
+    console.log('aled'); 
     return null;
   }
 
   if (!user) {
-    console.log("la page :", page); 
     if (page === 5 || page === 6) {
+      console.log("la page :", page); 
       return (
         <View>
           {page === 5 && <Auth handleSetPage={handleSetPage} />}
           {page === 6 && <Register handleSetPage={handleSetPage} />}
-          
         </View>
       )
     }
   } 
-
+  
   return (
     <View style={styles.container}>
       {page === 1 && <Home />}
       {page === 2 && <Search />}
       {page === 3 && <Maps />}
-      {page === 4 && <Profil />}
+      {page === 4 && <Profil user={user}/>}
       <Footer handleSetPage={handleSetPage} />
     </View>
   );

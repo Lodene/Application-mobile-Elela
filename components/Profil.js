@@ -6,10 +6,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const Profil = () => {
+const Profil = (user) => {
+    console.log(user['email']);
     return (
       <View style={styles.container}>
-          <Text>Je suis le Profil</Text>  
+          <Text>Bonjour {user.email} </Text>  
       </View>
     )
 }

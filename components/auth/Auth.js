@@ -1,10 +1,9 @@
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Alert } from 'react-native';
 import React, { useState } from 'react';
-import firebase  from '../config/Config';
+import { firebase }  from '../config/Config';
 
 const styles = StyleSheet.create({
     all: {
-      backgroundColor: "red"
     },
   });
 
@@ -14,7 +13,9 @@ const Login = (handleSetPage) => {
 
     const loginUser = async(email, password) => {
         try {
-            await firebase.auth().signinWithEmailAndPassword(email, password);
+            console.log("on try");
+            await firebase.auth().signInWithEmailAndPassword(email, password);
+            console.log("on termine le try");
         } catch(error) {
             console.log(error.message);
         }
@@ -25,19 +26,19 @@ const Login = (handleSetPage) => {
       <Text>Login</Text>
       <View>
         <TextInput
+            required
             style={styles.input}
             placeholder="Email"
             onChangeText={(email) => setEmail(email)}
-            autoCapitalize="none"
-            autoCorrect="none">
+            autoCapitalize="none">
         </TextInput>
 
         <TextInput
+        required
             style={styles.input}
             placeholder="Mot de Passe"
             onChangeText={(password) => setPassword(password)}
             autoCapitalize="none"
-            autoCorrect="none"
             secureTextEntry={true}>
         </TextInput>
       </View>
