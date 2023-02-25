@@ -35,7 +35,7 @@ const App = () => {
     return susbscriber; 
   }, []);
   
-  const [page, setPage] = useState(5);
+  const [page, setPage] = useState(1);
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<firebase.User | null>(null);
 
@@ -55,16 +55,7 @@ const App = () => {
   }
 
   console.log(user);
-  
-  if (!user) {
-    console.log("la page :", page); 
-    return (
-      <View>
-        {page === 5 && <Auth handleSetPage={handleSetPage} />}
-        {page === 6 && <Register handleSetPage={handleSetPage} />}
-      </View>
-    )
-  } 
+
   
   return (
     <View style={styles.container}>
@@ -72,6 +63,8 @@ const App = () => {
       {page === 2 && <Search />}
       {/* {page === 3 && <Maps />} */}
       {page === 4 && <Profil user={user} handleSetPage={handleSetPage}/>}
+      {page === 5 && <Auth handleSetPage={handleSetPage} />}
+      {page === 6 && <Register handleSetPage={handleSetPage} />}
       <Footer handleSetPage={handleSetPage} />
     </View>
   );

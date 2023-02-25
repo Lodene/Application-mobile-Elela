@@ -1,30 +1,28 @@
 import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { firebase } from './config/Config';
+;
+
+import HeaderProfil from './profil/HeaderProfil'
+import QrCodeProfil from './profil/QrCodeProfil';
+import UserPage from './profil/UserPage';
+
   
 
 const Profil = ({user, handleSetPage}) => {
-    const handleLogout = async () => {
-        try {
-            await firebase.auth().signOut();
-            handleSetPage(5)
-        } catch (error) {
-            console.log(error);
-        } 
-    }
+  const [ProfilPage, setProfilPage] = useState(1)
 
-    console.log("user : ");
-    console.log(user.email);
-    return (
-      <View style={styles.container}>
-          <Text>Bonjour {user.email} </Text>  
-          <TouchableOpacity
-            onPress={handleLogout}
-            style={styles.buttonRegister}>
-            <Text>Se déconnecter</Text>
-      </TouchableOpacity>
-      </View>
-    )
+  const handleProfilSetPage = (number) => {
+    setProfilPage(number)
+  }
+
+  return (
+    <View style={styles.container}>
+      <HeaderProfil handleProfilSetPage={handleProfilSetPage} />
+      {ProfilPage === 1 && <UserPage  user={user} handleSetPage={handleSetPage}/>}
+      {ProfilPage === 2 && <QrCodeProfil  user={user}/>}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({

@@ -4,10 +4,11 @@ import { firebase }  from '../config/Config';
 
 const styles = StyleSheet.create({
     all: {
+      height: "91%"
     },
   });
 
-const Login = (handleSetPage) => {
+const Login = ({handleSetPage}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -15,6 +16,7 @@ const Login = (handleSetPage) => {
         try {
             console.log("on try");
             await firebase.auth().signInWithEmailAndPassword(email, password);
+            handleSetPage(1); 
             console.log("on termine le try");
         } catch(error) {
             console.log(error.message);
