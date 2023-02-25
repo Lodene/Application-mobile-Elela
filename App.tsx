@@ -54,7 +54,6 @@ const App = () => {
     return null;
   }
 
-  console.log(user);
 
   
   return (
@@ -65,7 +64,7 @@ const App = () => {
       {page === 4 && <Profil user={user} handleSetPage={handleSetPage}/>}
       {page === 5 && <Auth handleSetPage={handleSetPage} />}
       {page === 6 && <Register handleSetPage={handleSetPage} />}
-      <Footer handleSetPage={handleSetPage} />
+      <Footer handleSetPage={handleSetPage} page={page}/>
     </View>
   );
 };

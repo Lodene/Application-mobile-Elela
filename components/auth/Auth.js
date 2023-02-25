@@ -26,6 +26,7 @@ const Login = ({handleSetPage}) => {
   return (
     <View style={styles.all}>
       <Text>Login</Text>
+      <View> style={[styles.bar, position]}</View>
       <View>
         <TextInput
             required

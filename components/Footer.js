@@ -1,6 +1,54 @@
 import { Text, View, StyleSheet, ScrollView, Image, Button, TouchableOpacity } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { useState } from 'react';
 
+
+const Footer = ({handleSetPage, page}) => {
+  const [position, setPosition] = useState({ top: 0, left: 15 }); 
+
+  const handleSetPageAndMove = (newPage, newPosition) => {
+    handleSetPage(newPage);
+    setPosition(newPosition);
+  }; 
+
+  
+
+    return (
+      <View style={styles.container}>
+      <View style={[styles.bar, position]}></View>
+      
+      <TouchableOpacity 
+        style={styles.element} 
+        onPress={() => {
+          handleSetPageAndMove(1, { top: 0, left: 15 }); 
+        }}>
+        <Image
+          style={[styles.image] }
+          source={require('./homeWhite.png')}
+        />
+      </TouchableOpacity>
+      
+      <TouchableOpacity style={styles.element} onPress={() => {
+          handleSetPageAndMove(2, { top: 0, left: 140 }); 
+        }}>
+        <Image
+          style={styles.image}
+          source={require('./chercherWhite.png')}
+        />
+      </TouchableOpacity>
+      
+      <TouchableOpacity style={styles.element} onPress={() => {
+          handleSetPageAndMove(4, { top: 0, left: 275 }); 
+        }}>
+        <Image
+          style={styles.image}
+          source={require('./profilWhite.png')}
+        />
+      </TouchableOpacity>
+      
+    </View>
+    )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -27,45 +75,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  bar: {
+    position: 'absolute',
+    borderTopColor: 'orange',
+    borderTopWidth: 5,
+    width: 100,
+
   }
 });
-
-const Footer = ({handleSetPage}) => {
-  
-
-    return (
-      <View style={styles.container}>
-        
-        <TouchableOpacity style={[styles.position, styles.element]} onPress={()=>handleSetPage(1)}>
-          <Image
-            style={[styles.image] }
-            source={require('./homeWhite.png')}
-          />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.element} onPress={()=>handleSetPage(2)}>
-          <Image
-            style={styles.image}
-            source={require('./chercherWhite.png')}
-          />
-        </TouchableOpacity>
-
-        {/* <TouchableOpacity style={styles.element} onPress={()=>handleSetPage(3)}>
-          <Image
-            style={styles.image}
-            source={require('./localisationWhite.png')}
-          />
-        </TouchableOpacity> */} 
-        
-        <TouchableOpacity style={styles.element} onPress={()=>handleSetPage(4)}>
-          <Image
-            style={styles.image}
-            source={require('./profilWhite.png')}
-          />
-        </TouchableOpacity>
-        
-      </View>
-    )
-}
 
 export default Footer;
